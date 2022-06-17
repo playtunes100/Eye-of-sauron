@@ -12,13 +12,17 @@ These files will then be moved to a corresponding subdirectory depending on thei
 I needed something to automate cleaning up my Downloads folder
 
 ## Install
-First create a virtual environment
+place `eye.py` file in the desired folder
+create a virtual environment
 `python -m venv nameofvirtualenvironment`
 Activate the virtual environment
 `cd \nameofvirtualenvironment\Scripts\ & activate & ..\..`
 
 using [PIP Package installer](https://pypi.org/project/pip/) run
 `pip install -r requirements.txt`
+
+## Next?
+Make it a user friendly GUI 
 
 
 
