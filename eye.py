@@ -33,8 +33,6 @@ class MyHandler(FileSystemEventHandler):
         print(event) 
         if event.event_type == 'created':
             if not event.is_directory:
-                print("------"+event.src_path+"---------")
-                print("------"+os.getcwd()+"---------")
                 
                 extension = Tools.find_extension(event.src_path)
                 print("---File Type: "+extension)
@@ -43,14 +41,14 @@ class MyHandler(FileSystemEventHandler):
 
 
 class Tools():
-
+    #Finds the file extension/suffix of a file
     def find_extension(path):
         for index, item in enumerate(reversed(path)):
             if item == '.':
                 suffix = path[len(path)-index:len(path)]
                 return suffix.lower()
 
-    
+    #takes new file's path and its type and moves it to corresponding folder
     def organise(src_path, type):
         folder_dict = {'Music':["aac","flac","m4a","mp3","ogg","wav","opus","mpga","weba","wma"],
                         'Images':["jpg","jpeg","png","gif","webp","ico","tif","bmp","xcf","svg"],
@@ -68,8 +66,18 @@ class Tools():
                 print("Moving: "+src_path+" To: "+target_path)
                 os.renames(src_path,target_path)
                 print("Done")
+     
+    #used to organize files in the folder before running the Watcher           
+    def organiser(path):
+        with os.scandir(path) as it:
+            for entry in it:
+                if not entry.name.startswith('.') and entry.is_file() and entry.name != 'eye.py':
+                    extension = Tools.find_extension(entry.path)
+                    Tools.organise(entry.path,extension)
         
         
 if __name__=="__main__":
-    w = Watcher(".", MyHandler())
+    path = "."
+    w = Watcher(path, MyHandler())
+    Tools.organiser(path)
     w.run()
