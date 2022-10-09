@@ -16,7 +16,7 @@ place `eye.py` file in the desired folder
 create a virtual environment
 `python -m venv nameofvirtualenvironment`
 Activate the virtual environment
-`cd \nameofvirtualenvironment\Scripts\ & activate & ..\..`
+`nameofvirtualenvironment\Scripts\activate`
 
 using [PIP Package installer](https://pypi.org/project/pip/) run
 `pip install -r requirements.txt`
