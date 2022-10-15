@@ -1,7 +1,6 @@
 import sys
 import os
 import getopt
-from pathlib import Path, PurePath
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -55,9 +54,9 @@ class Tools():
                         'Images':["jpg","jpeg","png","gif","webp","ico","tif","bmp","xcf","svg"],
                         'Videos':["mp4","3gp","m4v","mkv","webm","mov","avi","wmv","mpg","flv"],
                         'Archives':["zip","rar","tar","7z","gz","xz","lzo","iso"],
-                        'Documents':["pdf","epub","txt","docx","doc","xlsx","ppt","pptx","odt","csv"],
-                        'Applications':["exe","msi","dll","jar","apk","com","bat","bin","cmd","apk"],
-                        'Scripts':["py","js","html","css","java","c","json","xml"]
+                        'Documents':["pdf","epub","txt","docx","doc","xls","xlsx","ppt","pptx","odt","csv"],
+                        'Applications':["exe","msi","dll","jar","apk","com","bat","bin","cmd"],
+                        'Scripts':["py","js","htm","html","css","java","c","cpp","json","xml"]
                         }
                
         for folder in folder_dict:
@@ -67,24 +66,29 @@ class Tools():
                 print("Moving: "+src_path+" To: "+target_path)
                 os.renames(src_path,target_path)
                 print("Done")
+            else:
+                return type
      
     #used to organize files in the folder before running the Watcher           
     def organiser(path):
+        unrecognized = []
         with os.scandir(path) as it:
             for entry in it:
                 if not entry.name.startswith('.') and entry.is_file() and entry.name != 'eye.py':
                     extension = Tools.find_extension(entry.path)
-                    Tools.organise(entry.path,extension)
+                    unrecognized.append(Tools.organise(entry.path,extension))
+            print("List of unrecognized filetypes:")
+            print(set(unrecognized))
         
         
 if __name__=="__main__":
 
     try:
-        arguments, values = getopt.getopt(sys.argv[1:], "h:o:w:", ["Help", "Organize", "Watch"])
+        arguments, values = getopt.getopt(sys.argv[1:], "ho:w:", ["Help", "Organize", "Watch"])
         for currentArgument, currentValue in arguments:
     
             if currentArgument in ("-h", "--Help"):
-                print("Thanks for using The Eye of sauron!\n\n This script has two arguments: \n 1. -w <folderpath> to activate the watcher in that folder. \n 2. -o to organize the folder before activating watcher.")
+                print("Thanks for using The Eye of sauron!\n\n This script has three arguments: \n 1. -w <folderpath> to activate the watcher in that folder. \n 2. -o <folderpath> to organize the folder before activating watcher.\n 3. -h for help")
             
             elif currentArgument in ("-o", "--Organize"):
                 print("Organizing in "+ currentValue)
