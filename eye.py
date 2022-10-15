@@ -1,5 +1,6 @@
 import sys
 import os
+import getopt
 from pathlib import Path, PurePath
 import time
 from watchdog.observers import Observer
@@ -7,7 +8,7 @@ from watchdog.events import FileSystemEventHandler
 
 class Watcher:
 
-    def __init__(self, directory=".", handler=FileSystemEventHandler()):
+    def __init__(self, directory, handler=FileSystemEventHandler()):
         self.observer = Observer()
         self.handler = handler
         self.directory = directory
@@ -35,9 +36,9 @@ class MyHandler(FileSystemEventHandler):
             if not event.is_directory:
                 
                 extension = Tools.find_extension(event.src_path)
-                print("---File Type: "+extension)
+                print("---File Type: "+ extension)
                 #-----------------------------------------------
-                Tools.organise(event.src_path,extension)
+                Tools.organise(event.src_path, extension)
 
 
 class Tools():
@@ -54,15 +55,15 @@ class Tools():
                         'Images':["jpg","jpeg","png","gif","webp","ico","tif","bmp","xcf","svg"],
                         'Videos':["mp4","3gp","m4v","mkv","webm","mov","avi","wmv","mpg","flv"],
                         'Archives':["zip","rar","tar","7z","gz","xz","lzo","iso"],
-                        'Documents':["pdf","epub","txt","docx","doc","wav","xlsx","ppt","pptx","odt","csv"],
+                        'Documents':["pdf","epub","txt","docx","doc","xlsx","ppt","pptx","odt","csv"],
                         'Applications':["exe","msi","dll","jar","apk","com","bat","bin","cmd","apk"],
                         'Scripts':["py","js","html","css","java","c","json","xml"]
                         }
                
         for folder in folder_dict:
             if type in folder_dict[folder]:
-                path = src_path
-                target_path = os.getcwd()+"\\"+folder + path[1:len(path)]
+                head, path = os.path.split(src_path)
+                target_path = head +"\\"+folder + "\\" + path
                 print("Moving: "+src_path+" To: "+target_path)
                 os.renames(src_path,target_path)
                 print("Done")
@@ -77,7 +78,23 @@ class Tools():
         
         
 if __name__=="__main__":
-    path = "."
-    w = Watcher(path, MyHandler())
-    Tools.organiser(path)
-    w.run()
+
+    try:
+        arguments, values = getopt.getopt(sys.argv[1:], "h:o:w:", ["Help", "Organize", "Watch"])
+        for currentArgument, currentValue in arguments:
+    
+            if currentArgument in ("-h", "--Help"):
+                print("Thanks for using The Eye of sauron!\n\n This script has two arguments: \n 1. -w <folderpath> to activate the watcher in that folder. \n 2. -o to organize the folder before activating watcher.")
+            
+            elif currentArgument in ("-o", "--Organize"):
+                print("Organizing in "+ currentValue)
+                Tools.organiser(currentValue)
+
+            elif currentArgument in ("-w", "--Watch"):
+                print("Starting Watcher in " + currentValue)
+                w = Watcher(currentValue, MyHandler())
+                w.run()
+                         
+    except getopt.error as err:
+        # output error, and return with an error code
+        print (str(err))

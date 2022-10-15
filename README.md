@@ -21,6 +21,16 @@ Activate the virtual environment
 using [PIP Package installer](https://pypi.org/project/pip/) run
 `pip install -r requirements.txt`
 
+## How to use
+Use the `py eye.py -o <pathtofolder>` to organize the folder
+
+Use the `py eye.py -w <pathtofolder>` to activate the watcher
+
+Use both to organize the folder first then activate the watcher
+
+`py eye.py -o <pathtofolder> -w <pathtofolder>`
+
+
 ## Next?
 Make it a user friendly GUI 
 
