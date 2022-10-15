@@ -12,23 +12,27 @@ These files will then be moved to a corresponding subdirectory depending on thei
 I needed something to automate cleaning up my Downloads folder
 
 ## Install
-place `eye.py` file in the desired folder
+clone the repo `git clone https://github.com/playtunes100/Eye-of-sauron.git`
+
 create a virtual environment
+
 `python -m venv nameofvirtualenvironment`
+
 Activate the virtual environment
+
 `nameofvirtualenvironment\Scripts\activate`
 
 using [PIP Package installer](https://pypi.org/project/pip/) run
 `pip install -r requirements.txt`
 
 ## How to use
-Use the `py eye.py -o <pathtofolder>` to organize the folder
+Use the `python eye.py -o <pathtofolder>` to organize the folder
 
-Use the `py eye.py -w <pathtofolder>` to activate the watcher
+Use the `python eye.py -w <pathtofolder>` to activate the watcher
 
 Use both to organize the folder first then activate the watcher
 
-`py eye.py -o <pathtofolder> -w <pathtofolder>`
+`python eye.py -o <pathtofolder> -w <pathtofolder>`
 
 
 ## Next?
