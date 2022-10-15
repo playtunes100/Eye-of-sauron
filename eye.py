@@ -50,6 +50,7 @@ class Tools():
 
     #takes new file's path and its type and moves it to corresponding folder
     def organise(src_path, type):
+        isknown = False
         folder_dict = {'Music':["aac","flac","m4a","mp3","ogg","wav","opus","mpga","weba","wma"],
                         'Images':["jpg","jpeg","png","gif","webp","ico","tif","bmp","xcf","svg"],
                         'Videos':["mp4","3gp","m4v","mkv","webm","mov","avi","wmv","mpg","flv"],
@@ -66,8 +67,11 @@ class Tools():
                 print("Moving: "+src_path+" To: "+target_path)
                 os.renames(src_path,target_path)
                 print("Done")
-            else:
-                return type
+                isknown = True
+
+        if not isknown:
+            return type
+
      
     #used to organize files in the folder before running the Watcher           
     def organiser(path):
